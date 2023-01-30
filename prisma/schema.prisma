@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model comments {
+  id      Int    @id(map: "comments_pk") @default(autoincrement())
+  comment String @db.VarChar(255)
+  gameid  Int
+  userid  Int
+  users   users  @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comments_fk0")
+}
+
+model userInfo {
+  id            Int    @id(map: "userInfo_pk") @default(autoincrement())
+  userid        Int
+  teamid        Int
+  teamname      String
+  logoteam      String
+  playerid      Int
+  playername    String
+  playerpicture String
+  users         users  @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userInfo_fk0")
+}
+
+model users {
+  id       Int        @id(map: "users_pk") @default(autoincrement())
+  name     String
+  email    String
+  password String
+  comments comments[]
+  sessions sessions[]
+  userInfo userInfo[]
+}
+
+model sessions {
+  id     Int     @id(map: "sessions_pk") @default(autoincrement())
+  token  String
+  active Boolean @default(true)
+  userid Int
+  users  users   @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "sessions_fk0")
+}
