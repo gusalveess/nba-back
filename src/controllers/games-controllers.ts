@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import GamesUtils from "../utils/games-utils";
 import httpStatus from "http-status";
-import { date, data, teams } from "../protocols";
+import { date, data, teams, playerSearch } from "../protocols";
 import { AuthenticatedRequest } from "../middlewares";
 
-export function GamesInLiveControllers(req: Request, res: Response) {
+export async function GamesInLiveControllers(req: Request, res: Response) {
     try {
-        const result = GamesUtils.GamesInLive();
+        const result: data[] = await GamesUtils.GamesInLive();
         return res.status(httpStatus.OK).send(result);
     } catch (err) {
         console.log(err)
@@ -39,9 +39,11 @@ export async function TeamsControllers(req: AuthenticatedRequest, res: Response)
 
 export async function SearchPlayerControllers(req: AuthenticatedRequest, res: Response) {
     const {search} = req.params;
+    const correct = GamesUtils.Correct(search);
     try {
-        const result = await GamesUtils.SearchPlayer(search)
-        return res.status(httpStatus.OK).send(result);
+        const result: playerSearch[] = await GamesUtils.SearchPlayer();
+        const filter = result.filter(item => item.LastName === correct);
+        return res.status(httpStatus.OK).send(filter);
     } catch (err) {
         console.log(err)
         return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);

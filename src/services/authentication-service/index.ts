@@ -15,6 +15,7 @@ async function SignUpService(data: Omit<users, "id">) {
     name: data.name,
     email: data.email,
     password: passwordHashed,
+    picture: data.picture
   };
   return await authenticationRepository.CreateUser(CreateData);
 }

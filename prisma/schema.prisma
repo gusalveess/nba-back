@@ -9,7 +9,7 @@ datasource db {
 
 model comments {
   id      Int    @id(map: "comments_pk") @default(autoincrement())
-  comment String @db.VarChar(255)
+  comment String @db.VarChar(70)
   gameid  Int
   userid  Int
   users   users  @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comments_fk0")
@@ -32,6 +32,7 @@ model users {
   name     String
   email    String
   password String
+  picture  String
   comments comments[]
   sessions sessions[]
   userInfo userInfo[]

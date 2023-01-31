@@ -1,7 +1,6 @@
 import axios from "axios";
-import { games } from "../protocols";
 
-function GamesInLive() {
+async function GamesInLive() {
     const options = {
         method: 'GET',
         url: 'https://api-nba-v1.p.rapidapi.com/games',
@@ -12,25 +11,8 @@ function GamesInLive() {
         }
       };
 
-      const promise = axios.request(options);
-      promise.then((response) => {
-        const data = [
-            {
-                id: response.data.id,
-                status: response.data.status.long,
-                homeTeamPic: response.data.teams.home.logo,
-                homeTeamNick: response.data.teams.home.nickname,
-                homeTeamPoints: response.data.scores.home.points,
-                visitorsTeamPic: response.data.teams.visitors.logo,
-                visitorsTeamNick: response.data.teams.visitors.nickname,
-                visitorsTeamPoints:  response.data.scores.visitors.points
-            }
-        ]
-        return data
-      });  
-      promise.catch((err) => {
-        console.log(err)
-    })
+      const promise = await axios.request(options);
+      return promise.data.response
 }
 
 async function GamesPerDate(date: string) {
@@ -61,17 +43,18 @@ async function Teams() {
       return promise.data.response
 }
 
-async function SearchPlayer(name: string) {
-    const options = {
-        method: 'GET',
-        url: 'https://api-nba-v1.p.rapidapi.com/teams',
-        headers: {
-          'X-RapidAPI-Key': '017c5418bcmshc2ae8324aa9861fp1c26dbjsncd47f788d19b',
-          'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
-        }
-      };
-      const promise = await axios.request(options);
-      return promise.data.response
+async function SearchPlayer() {
+      const promise = await axios.get('https://api.sportsdata.io/v3/nba/scores/json/Players?key=fffdddc54d6b415787ec39b4752281ae')
+      return promise.data
+}
+
+function Correct(search: string) {
+const strArr = search.split(" ");
+
+const result = strArr.map((str) => { 
+    return str[0].toUpperCase() + str.substring(1); 
+}).join(" ");
+return result
 }
 
 
@@ -79,7 +62,8 @@ const GamesUtils = {
     GamesInLive,
     GamesPerDate,
     Teams,
-    SearchPlayer
+    SearchPlayer,
+    Correct
 }
 
 export default GamesUtils;

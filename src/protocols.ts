@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export type ApplicationError = {
   name: string;
   message: string;
@@ -19,32 +21,6 @@ export type SignInType = {
 export type date = {
   date: string
 }
-
-export type games = {
-  id: number,
-  status: {
-    long: string
-  },
-  teams: {
-    visitors: {
-      nickname: string,
-      logo: string
-    },
-    home: {
-      nickname: string,
-      logo: string
-    }
-  },
-  scores: {
-    visitors: {
-      points: number | null
-    },
-    home: {
-      points: number | null
-    }
-  }
-}
-
 
 export type data = {
   id: number,
@@ -132,3 +108,57 @@ export type data = {
       }
     }
   }
+
+ export type commentData = Omit<Prisma.commentsUncheckedCreateInput, "id">;
+
+ export type playerSearch = {
+  PlayerID: number,
+  SportsDataID: string,
+  Status: string,
+  TeamID: number,
+  Team: string,
+  Jersey: number,
+  PositionCategory: string,
+  Position: string,
+  FirstName: string,
+  LastName: string,
+  Height: number,
+  Weight: number,
+  BirthDate: string,
+  BirthCity: string,
+  BirthState: string,
+  BirthCountry: string,
+  HighSchool: null,
+  College: string,
+  Salary: number,
+  PhotoUrl: string,
+  Experience: number,
+  SportRadarPlayerID: string,
+  RotoworldPlayerID: number,
+  RotoWirePlayerID: number,
+  FantasyAlarmPlayerID: number,
+  StatsPlayerID: number,
+  SportsDirectPlayerID: number,
+  XmlTeamPlayerID: number,
+  InjuryStatus: string,
+  InjuryBodyPart: string,
+  InjuryStartDate: null,
+  InjuryNotes: string,
+  FanDuelPlayerID: number,
+  DraftKingsPlayerID: number,
+  YahooPlayerID: number,
+  FanDuelName: string,
+  DraftKingsName: string,
+  YahooName: string,
+  DepthChartPosition: string,
+  DepthChartOrder: number,
+  GlobalTeamID: number,
+  FantasyDraftName: string,
+  FantasyDraftPlayerID: number,
+  UsaTodayPlayerID: number,
+  UsaTodayHeadshotUrl: string,
+  UsaTodayHeadshotNoBackgroundUrl: string,
+  UsaTodayHeadshotUpdated: string,
+  UsaTodayHeadshotNoBackgroundUpdated: string,
+  NbaDotComPlayerID: number
+}

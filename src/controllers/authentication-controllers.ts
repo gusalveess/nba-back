@@ -6,7 +6,7 @@ import { SignInType } from "protocols";
 import { AuthenticatedRequest } from "middlewares";
 
 export async function SignUpController(req: Request, res: Response) {
-  const data = req.body as Omit<users, "id">;
+  const data = req.body as Omit<users, 'id'>
 
   try {
     await authenticationService.SignUpService(data);
