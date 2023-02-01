@@ -1,4 +1,4 @@
-import { prisma } from "config";
+import { prisma } from "../../config";
 import { Prisma } from "@prisma/client";
 
 type createUserInfo = Omit<Prisma.userInfoUncheckedCreateInput, "id">;
@@ -10,7 +10,7 @@ async function CreateUserInfo(data: createUserInfo) {
 }
 
 async function GetUserInfoByUserId(userid: number) {
-  return await prisma.userInfo.findFirst({
+  return await prisma.userInfo.findMany({
     where: {
       userid: userid,
     },

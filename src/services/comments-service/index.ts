@@ -1,8 +1,15 @@
 import { notFoundError } from "../../errors";
-import { commentData } from "../../protocols";
+import { commentData, CommentsResult } from "../../protocols";
 import commentRepository from "../../repositories/comments-repository";
+import authenticationRepository from "../../repositories/authentication-repository";
 
-async function CreateCommentService(data: Omit<commentData, 'userid'>, userid: number) {
+async function CreateCommentService(data: Omit<commentData, 'userid'>, token: string) {
+
+    const findToken = await authenticationRepository.findSessionByToken(token);
+
+    if (!findToken) {
+        throw notFoundError()
+    }
 
     if(!data) {
         throw notFoundError()
@@ -11,7 +18,7 @@ async function CreateCommentService(data: Omit<commentData, 'userid'>, userid: n
     const InfoData = {
         comment: data.comment,
         gameid: data.gameid,
-        userid: userid
+        userid: findToken.userid
     }
     return await commentRepository.CreateComment(InfoData);
 }
@@ -20,7 +27,9 @@ async function GetCommentsService(gameid: string) {
     if (!gameid) {
         throw notFoundError()
     }
-    return await commentRepository.GetCommentsByGameId(parseInt(gameid))
+    const result: CommentsResult[] =  await commentRepository.GetCommentsByGameId(parseInt(gameid));
+
+    return result
 }
 
 const commentService = {

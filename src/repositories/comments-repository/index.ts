@@ -11,6 +11,15 @@ async function GetCommentsByGameId(gameid: number) {
   return await prisma.comments.findMany({
     where: {
       gameid: gameid,
+    },
+    include: {
+      users: {
+        select: {
+          id: true,
+          name: true,
+          picture: true
+        }
+      }
     }
   });
 }

@@ -49,7 +49,8 @@ async function SearchPlayer() {
 }
 
 function Correct(search: string) {
-const strArr = search.split(" ");
+const str = search.toLowerCase();
+const strArr = str.split(" ");
 
 const result = strArr.map((str) => { 
     return str[0].toUpperCase() + str.substring(1); 

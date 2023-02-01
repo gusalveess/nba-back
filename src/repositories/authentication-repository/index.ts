@@ -54,12 +54,22 @@ async function LogOut(id: number) {
     })
 }
 
+async function findSessionByToken(token: string) {
+    return await prisma.sessions.findFirst({
+        where: {
+            active: true,
+            token: token
+        }
+    })
+}
+
 const authenticationRepository = {
     FindEmail,
     CreateUser,
     FindAccount,
     Login,
     ActiveSession,
+    findSessionByToken,
     LogOut
 }
 

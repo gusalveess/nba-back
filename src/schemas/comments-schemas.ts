@@ -5,5 +5,5 @@ type commentsData = Omit<comments, 'id' | 'userid'>
 
 export const CreateCommentSchema = Joi.object<commentsData>({
     comment: Joi.string().required(),
-    gameid: Joi.string().required()
+    gameid: Joi.number().required()
 })

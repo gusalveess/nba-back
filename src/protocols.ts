@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, userInfo } from "@prisma/client";
 
 export type ApplicationError = {
   name: string;
@@ -162,3 +162,17 @@ export type data = {
   UsaTodayHeadshotNoBackgroundUpdated: string,
   NbaDotComPlayerID: number
 }
+
+export type CommentsResult = {
+  id: number,
+  comment: string,
+  gameid: number,
+  userid: number,
+  users: {
+    id: number,
+    name: string,
+    picture: string
+  }
+}
+
+export type UserInfoBody = Omit<userInfo, "id" | "userid">;

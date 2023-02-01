@@ -6,12 +6,13 @@ import { AuthenticatedRequest } from "../middlewares";
 
 export async function CreateCommentControllers(req: AuthenticatedRequest, res: Response) {
     const data = req.body as Omit<commentData, 'userid'>
-    const {userId} = req
+    const {token} = req
 
     try {
-        await commentService.CreateCommentService(data, userId);
+        await commentService.CreateCommentService(data, token);
         return res.sendStatus(httpStatus.CREATED);
     } catch (err) {
+        console.log(err)
         if(err.name === 'NotFoundError') {
             return res.sendStatus(httpStatus.NOT_FOUND);
         }
@@ -25,6 +26,7 @@ export async function GetCommentsByGameId(req: AuthenticatedRequest, res: Respon
         const result = await commentService.GetCommentsService(gameid);
         return res.status(httpStatus.OK).send(result);
     } catch (err) {
+        console.log(err)
         if(err.name === 'NotFoundError') {
             return res.sendStatus(httpStatus.NOT_FOUND);
         }
