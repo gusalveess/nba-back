@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import GamesUtils from "../utils/games-utils";
 import httpStatus from "http-status";
-import { date, data } from "../protocols";
+import { date, data, TeamStats } from "../protocols";
 import { AuthenticatedRequest } from "../middlewares";
 import GamesService from "../services/games-service";
 
@@ -58,6 +58,28 @@ export async function SearchPlayerControllers(
     console.log(err);
     if (err.name === "UnauthorizedError") {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
+    }
+    if (err.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function PlayerStatsControllers(
+  req: AuthenticatedRequest,
+  res: Response
+) {
+  const { gameid } = req.params;
+  const { team } = req.body as TeamStats;
+
+  try {
+    const result = await GamesService.PlayerStatsService(gameid, team);
+    return res.status(httpStatus.OK).send(result);
+  } catch (err) {
+    console.log(err);
+    if (err.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
     }
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
