@@ -71,13 +71,27 @@ export async function PlayerStatsControllers(
   res: Response
 ) {
   const { gameid } = req.params;
-  const { team } = req.body as TeamStats;
 
   try {
-    const result = await GamesService.PlayerStatsService(gameid, team);
+    const result = await GamesService.PlayerStatsService(gameid);
     return res.status(httpStatus.OK).send(result);
   } catch (err) {
     console.log(err);
+    if (err.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function GameStatsControllers(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const result = await GamesService.GameStatsService(id);
+    return res.status(httpStatus.OK).send(result);
+  } catch (err) {
+    console.log(err)
     if (err.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }

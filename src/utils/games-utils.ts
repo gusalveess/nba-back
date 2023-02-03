@@ -76,13 +76,28 @@ function Correct(search: string) {
   return result;
 }
 
+async function GameStats(id: string) {
+  const options = {
+    method: 'GET',
+    url: 'https://api-nba-v1.p.rapidapi.com/games',
+    params: {id: id},
+    headers: {
+      'X-RapidAPI-Key': '017c5418bcmshc2ae8324aa9861fp1c26dbjsncd47f788d19b',
+      'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+    }
+  };
+  const promise = await axios.request(options);
+  return promise.data.response;
+}
+
 const GamesUtils = {
   GamesInLive,
   GamesPerDate,
   Teams,
   SearchPlayer,
   Correct,
-  PlayerStatsByGameId
+  PlayerStatsByGameId,
+  GameStats
 };
 
 export default GamesUtils;

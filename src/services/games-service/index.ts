@@ -36,19 +36,27 @@ async function ChoosePlayersService(token: string, search: string) {
   return filter;
 }
 
-async function PlayerStatsService(gameid: string, team: string) {
+async function PlayerStatsService(gameid: string) {
   const result: PlayerStats[] = await GamesUtils.PlayerStatsByGameId(gameid);
   if (!result) {
     throw notFoundError();
   }
-  const filter = result.filter((item) => item.team.nickname === team);
-  return filter;
+ return result
+}
+
+async function GameStatsService(id: string) {
+  const result = await GamesUtils.GameStats(id);
+  if(!result) {
+    throw notFoundError();
+  }
+  return result
 }
 
 const GamesService = {
   ChooseTeamsService,
   ChoosePlayersService,
   PlayerStatsService,
+  GameStatsService
 };
 
 export default GamesService;

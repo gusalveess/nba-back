@@ -4,7 +4,3 @@ import { date, TeamStats } from "protocols";
 export const GameDateSchema = Joi.object<date>({
     date: Joi.string().required()
 })
-
-export const TeamStatsSchema = Joi.object<TeamStats>({
-    team: Joi.string().required()
-})
