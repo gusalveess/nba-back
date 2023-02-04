@@ -5,7 +5,7 @@ import { CreateCommentSchema } from "../schemas/comments-schemas";
 
 const commentsRouter = Router();
 
-commentsRouter.all('/comments*', authenticateToken);
+commentsRouter.all('/comments/create*', authenticateToken);
 commentsRouter.post('/comments/create', validateBody(CreateCommentSchema), CreateCommentControllers);
 commentsRouter.get('/comments/:gameid', GetCommentsByGameId);
 
