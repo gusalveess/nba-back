@@ -28,9 +28,11 @@ export async function GetUserInfoController(
   res: Response
 ) {
   const { token } = req;
+  console.log(req)
 
   try {
     const result = await UserInfoService.GetUserInfo(token);
+    console.log(result)
     return res.status(httpStatus.OK).send(result);
   } catch (err) {
     console.log(err);

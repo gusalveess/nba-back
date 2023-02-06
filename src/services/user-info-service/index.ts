@@ -8,10 +8,6 @@ async function CreateUserInfo(data: UserInfoBody, token: string) {
   if (!Auth) {
     throw unauthorizedError();
   }
-  const verifyChoose = await userRepository.GetUserInfoByUserId(Auth.userid);
-  if (verifyChoose) {
-    throw conflictError("Conflict Error");
-  }
   const dataCreate = {
     userid: Auth.userid,
     teamid: data.teamid,

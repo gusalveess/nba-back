@@ -10,11 +10,9 @@ async function ChooseTeamsService(token: string) {
     throw unauthorizedError();
   }
   const verifyChoose = await userRepository.GetUserInfoByUserId(Auth.userid);
-  if (verifyChoose) {
-    throw unauthorizedError();
-  }
   const result: teams[] = await GamesUtils.Teams();
-  const filter = result.filter((item) => item.nbaFranchise === true);
+  const nba = result.filter((item) => item.nbaFranchise === true);
+  const filter = nba.filter((item) => item.nickname != 'Team Stephen A')
   return filter;
 }
 
@@ -24,9 +22,6 @@ async function ChoosePlayersService(token: string, search: string) {
     throw unauthorizedError();
   }
   const verifyChoose = await userRepository.GetUserInfoByUserId(Auth.userid);
-  if (verifyChoose) {
-    throw unauthorizedError();
-  }
   const correct = GamesUtils.Correct(search);
   const result: playerSearch[] = await GamesUtils.SearchPlayer();
   const filter = result.filter((item) => item.LastName === correct);
