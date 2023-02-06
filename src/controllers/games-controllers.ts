@@ -16,10 +16,10 @@ export async function GamesInLiveControllers(req: Request, res: Response) {
 }
 
 export async function GamesPerDateControllers(req: Request, res: Response) {
-  const { date } = req.body as date;
+  const { DateGame } = req.params
 
   try {
-    const result: data[] = await GamesUtils.GamesPerDate(date);
+    const result: data[] = await GamesUtils.GamesPerDate(DateGame);
     return res.status(httpStatus.OK).send(result);
   } catch (err) {
     console.log(err);

@@ -19,7 +19,7 @@ export type SignInType = {
 };
 
 export type date = {
-  date: string;
+  DateGame: string;
 };
 
 export type data = {

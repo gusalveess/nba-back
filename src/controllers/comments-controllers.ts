@@ -6,6 +6,7 @@ import { AuthenticatedRequest } from "../middlewares";
 
 export async function CreateCommentControllers(req: AuthenticatedRequest, res: Response) {
     const data = req.body as Omit<commentData, 'userid'>
+    console.log(req)
     const {token} = req
 
     try {
