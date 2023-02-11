@@ -1,7 +1,7 @@
 import { notFoundError, unauthorizedError } from "../../errors";
 import authenticationRepository from "../../repositories/authentication-repository";
 import userRepository from "../../repositories/user-repository";
-import { teams, playerSearch, PlayerStats } from "../../protocols";
+import { teams, playerSearch, PlayerStats, Standing } from "../../protocols";
 import GamesUtils from "../../utils/games-utils";
 
 async function ChooseTeamsService(token: string) {
@@ -12,7 +12,7 @@ async function ChooseTeamsService(token: string) {
   const verifyChoose = await userRepository.GetUserInfoByUserId(Auth.userid);
   const result: teams[] = await GamesUtils.Teams();
   const nba = result.filter((item) => item.nbaFranchise === true);
-  const filter = nba.filter((item) => item.nickname != 'Team Stephen A')
+  const filter = nba.filter((item) => item.nickname != "Team Stephen A");
   return filter;
 }
 
@@ -36,22 +36,32 @@ async function PlayerStatsService(gameid: string) {
   if (!result) {
     throw notFoundError();
   }
- return result
+  return result;
 }
 
 async function GameStatsService(id: string) {
   const result = await GamesUtils.GameStats(id);
-  if(!result) {
+  if (!result) {
     throw notFoundError();
   }
-  return result
+  return result;
+}
+
+async function StandingsService(conference: string) {
+  const result: Standing[] = await GamesUtils.Standings(conference);
+  if (!result) {
+    throw notFoundError();
+  }
+  const filter = result.sort((a, b) => a.conference.rank - b.conference.rank)
+  return filter;
 }
 
 const GamesService = {
   ChooseTeamsService,
   ChoosePlayersService,
   PlayerStatsService,
-  GameStatsService
+  GameStatsService,
+  StandingsService
 };
 
 export default GamesService;

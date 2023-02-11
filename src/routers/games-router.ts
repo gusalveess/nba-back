@@ -7,11 +7,13 @@ import {
   GamesInLiveControllers,
   PlayerStatsControllers,
   GameStatsControllers,
+  StandingsController,
 } from "../controllers/games-controllers";
 
 const gamesRouter = Router();
 
 gamesRouter.get("/games/date/:DateGame", GamesPerDateControllers);
+gamesRouter.get('/standings/:conference', StandingsController);
 gamesRouter
   .get("/games/live", GamesInLiveControllers)
   .all("/choose*", authenticateToken);

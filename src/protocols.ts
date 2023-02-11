@@ -215,7 +215,48 @@ export type PlayerStats = {
 };
 
 export type TeamStats = {
-  team: string
-}
+  team: string;
+};
+
+export type Standing = {
+  league: string;
+  season: number;
+  team: {
+    id: number;
+    name: string;
+    code: string;
+    logo: string;
+  };
+  conference: {
+    name: string;
+    rank: number;
+    win: number;
+    loss: number;
+  };
+  division: {
+    name: string;
+    rank: number;
+    win: number;
+    loss: number;
+  };
+  win: {
+    home: number;
+    away: number;
+    total: number;
+    percentage: string;
+    lastTen: number;
+  };
+  loss: {
+    home: number;
+    away: number;
+    total: number;
+    percentage: string;
+    lastTen: number;
+  };
+  gamesBehind: null;
+  streak: number;
+  winStreak: boolean;
+  tieBreakerPoints: null;
+};
 
 export type UserInfoBody = Omit<userInfo, "id" | "userid">;

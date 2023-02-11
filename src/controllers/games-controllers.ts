@@ -16,7 +16,7 @@ export async function GamesInLiveControllers(req: Request, res: Response) {
 }
 
 export async function GamesPerDateControllers(req: Request, res: Response) {
-  const { DateGame } = req.params
+  const { DateGame } = req.params;
 
   try {
     const result: data[] = await GamesUtils.GamesPerDate(DateGame);
@@ -91,7 +91,22 @@ export async function GameStatsControllers(req: Request, res: Response) {
     const result = await GamesService.GameStatsService(id);
     return res.status(httpStatus.OK).send(result);
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    if (err.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+  }
+}
+
+export async function StandingsController(req: Request, res: Response) {
+  const { conference } = req.params;
+
+  try {
+    const result = await GamesService.StandingsService(conference);
+    return res.status(httpStatus.OK).send(result);
+  } catch (err) {
+    console.log(err);
     if (err.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }
