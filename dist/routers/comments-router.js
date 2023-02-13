@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.commentsRouter = void 0;
+const comments_controllers_1 = require("../controllers/comments-controllers");
+const express_1 = require("express");
+const middlewares_1 = require("../middlewares");
+const comments_schemas_1 = require("../schemas/comments-schemas");
+const commentsRouter = (0, express_1.Router)();
+exports.commentsRouter = commentsRouter;
+commentsRouter.all('/comments/create*', middlewares_1.authenticateToken);
+commentsRouter.post('/comments/create', (0, middlewares_1.validateBody)(comments_schemas_1.CreateCommentSchema), comments_controllers_1.CreateCommentControllers);
+commentsRouter.get('/comments/:gameid', comments_controllers_1.GetCommentsByGameId);
