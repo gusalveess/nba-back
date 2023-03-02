@@ -29,8 +29,8 @@ async function LoginService(email: string, password: string) {
 
   const userId = verify.id.toString();
 
-  const isPasswordValid = await bcrypt.compareSync(password, verify.password);
-  if (!isPasswordValid) {
+  const isPasswordValid = bcrypt.compareSync(password, verify.password);
+  if (isPasswordValid === false) {
     throw unauthorizedError();
   }
 
